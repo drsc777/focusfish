@@ -1,0 +1,150 @@
+{
+  "" : {
+    "const-values" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfish-master.swiftconstvalues",
+    "dependencies" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfish-master.d",
+    "diagnostics" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfish-master.dia",
+    "emit-module-dependencies" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfish-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfish-master-emit-module.dia",
+    "swift-dependencies" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfish-master.swiftdeps"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/GeneratedAssetSymbols.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/ContentView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ContentView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ContentView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ContentView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Item.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Item.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Item.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Item.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Models/Enums.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Enums.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Enums.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Enums.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Models/Fish.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Fish.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Fish.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Fish.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Models/Habit.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Habit.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Habit.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Habit.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Models/Pet.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Pet.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Pet.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/Pet.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Models/PomodoroSession.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PomodoroSession.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PomodoroSession.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PomodoroSession.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Models/SoundSettings.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/SoundSettings.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/SoundSettings.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/SoundSettings.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/ViewModels/HabitViewModel.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HabitViewModel.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HabitViewModel.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HabitViewModel.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/ViewModels/PetViewModel.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PetViewModel.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PetViewModel.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PetViewModel.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/ViewModels/TimerViewModel.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/TimerViewModel.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/TimerViewModel.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/TimerViewModel.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/FishingSceneView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishingSceneView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishingSceneView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishingSceneView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/HeatmapView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HeatmapView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HeatmapView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HeatmapView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/PixelButton.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelButton.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelButton.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelButton.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/PixelCatView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelCatView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelCatView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelCatView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/PixelFishView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelFishView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelFishView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelFishView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/PixelProgressBar.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelProgressBar.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelProgressBar.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PixelProgressBar.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/ProgressBarView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ProgressBarView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ProgressBarView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ProgressBarView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/Components/SoundSettingsView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/SoundSettingsView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/SoundSettingsView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/SoundSettingsView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/FishCaughtView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishCaughtView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishCaughtView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishCaughtView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/FishCollectionView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishCollectionView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishCollectionView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/FishCollectionView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/HabitView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HabitView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HabitView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/HabitView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/MainTabView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/MainTabView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/MainTabView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/MainTabView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/ManualLogView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ManualLogView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ManualLogView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/ManualLogView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/PetStatusView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PetStatusView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PetStatusView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/PetStatusView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/Views/TimerView.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/TimerView.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/TimerView.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/TimerView.o"
+  },
+  "/Users/abby/Developer/focusfish/focusfish/focusfish/focusfishApp.swift" : {
+    "index-unit-output-path" : "/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfishApp.o",
+    "llvm-bc" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfishApp.bc",
+    "object" : "/Users/abby/Developer/focusfish/focusfish/build/focusfish.build/Release/focusfish.build/Objects-normal/x86_64/focusfishApp.o"
+  }
+}
