@@ -25,7 +25,7 @@ class TimerViewModel: ObservableObject {
     @Published var focusMinutes: Int = 25
     @Published var breakMinutes: Int = 5
     @Published var remainingSeconds: Int = 25 * 60
-    @Published var elapsedSeconds: Int = 0 // 正向计时已过秒数
+    @Published var elapsedSeconds: Int = 0 // Elapsed seconds for count-up timer
     @Published var progress: Double = 0.0
     @Published var timerMode: TimerMode = .countdown
     
@@ -37,10 +37,13 @@ class TimerViewModel: ObservableObject {
     private var timer: Timer?
     private var totalSeconds: Int = 25 * 60
     private var currentFish: Fish?
-    private var startTime: Date?
+    @Published var startTime: Date?
     
     // Sound settings
     let soundSettings: SoundSettings
+    
+    // Flag to prevent multiple simultaneous timer updates
+    private var isUpdating = false
     
     init(soundSettings: SoundSettings) {
         self.soundSettings = soundSettings
@@ -89,10 +92,14 @@ class TimerViewModel: ObservableObject {
     }
     
     func resetTimer() async {
+        // Invalidate any existing timer
+        timer?.invalidate()
+        timer = nil
+        
         timerState = .idle
         
         if timerMode == .countdown {
-            // 处理0值为2秒倒计时（用于测试）
+            // Handle 0 value as 2 second countdown (for testing)
             let actualFocusSeconds = focusMinutes == 0 ? 2 : focusMinutes * 60
             remainingSeconds = actualFocusSeconds
             totalSeconds = remainingSeconds
@@ -111,7 +118,7 @@ class TimerViewModel: ObservableObject {
         
         if timerState == .idle {
             startTime = Date()
-            // 处理0值为2秒倒计时（用于测试）
+            // Handle 0 value as 2 second countdown (for testing)
             let actualFocusMinutes = focusMinutes == 0 ? 0 : focusMinutes
             currentSession = PomodoroSession(
                 startTime: Date(),
@@ -123,12 +130,17 @@ class TimerViewModel: ObservableObject {
         
         timerState = .running
         
-        // 确保使用RunLoop.main并使用固定的时间间隔
-        timer = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
+        // Cancel any existing timer
+        timer?.invalidate()
+        timer = nil
+        
+        // Create a more precise timer using scheduledTimer with tolerance set to 0
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 await self?.updateTimer()
             }
         }
+        timer?.tolerance = 0 // Set tolerance to 0 for more precise timing
         RunLoop.main.add(timer!, forMode: .common)
     }
     
@@ -142,16 +154,25 @@ class TimerViewModel: ObservableObject {
         timer?.invalidate()
         timer = nil
         
-        // 对于正计时模式，检查是否可以获得鱼
-        if timerMode == .countup && timerState == .running {
+        // For count-up mode, check if fish can be earned
+        if timerMode == .countup {
+            // Always check for fish in count-up mode regardless of state
             await checkCountUpCompletionAndGetFish()
         } else {
-            // 对于倒计时模式，直接重置
+            // For countdown mode, just reset
             await resetTimer()
         }
     }
     
     private func updateTimer() async {
+        // Prevent multiple simultaneous updates
+        if isUpdating {
+            return
+        }
+        
+        isUpdating = true
+        defer { isUpdating = false }
+        
         if timerMode == .countdown {
             updateCountdownTimer()
         } else {
@@ -160,6 +181,8 @@ class TimerViewModel: ObservableObject {
     }
     
     private func updateCountdownTimer() {
+        print("Updating countdown timer: \(remainingSeconds) seconds remaining")
+        
         guard remainingSeconds > 0 else {
             timer?.invalidate()
             timer = nil
@@ -172,7 +195,7 @@ class TimerViewModel: ObservableObject {
                     Task { await soundSettings.playSound() }
                 }
                 
-                // 自动开始休息时间
+                // Automatically start break time
                 Task { await startBreakAfterDelay() }
             } else if timerState == .inBreak {
                 timerState = .idle
@@ -188,41 +211,59 @@ class TimerViewModel: ObservableObject {
     }
     
     private func updateCountUpTimer() {
+        print("Updating count-up timer: \(elapsedSeconds) seconds elapsed")
+        
         elapsedSeconds += 1
         
-        // 计算进度百分比，在Count Up模式下进度只是视觉指示，每小时为一个周期
+        // Calculate progress percentage, in Count Up mode progress is just a visual indicator, one cycle per hour
         let oneHourInSeconds = 60 * 60
         progress = (Double(elapsedSeconds % oneHourInSeconds) / Double(oneHourInSeconds))
     }
     
-    // 当计时器停止时检查是否可以获得鱼（仅适用于Count Up模式）
+    // Check if fish can be earned when timer stops (only for Count Up mode)
     func checkCountUpCompletionAndGetFish() async {
-        // 只有在正计时模式下才执行
+        // Only execute in count-up mode
         guard timerMode == .countup else { return }
         
-        // 停止计时器
+        // Stop the timer
         timer?.invalidate()
         timer = nil
         
-        // 如果计时超过25分钟，创建一条鱼并设置状态为完成
+        // If timer ran for more than 25 minutes, create a fish and set state to finished
         if elapsedSeconds >= 25 * 60 {
-            currentFish = generateFish(focusMinutes: elapsedSeconds / 60)
+            // Calculate actual focus minutes from elapsed seconds
+            let actualFocusMinutes = elapsedSeconds / 60
+            
+            // Update the session with actual focus time
+            if let session = currentSession {
+                session.completeWithActualTime(actualFocusMinutes: actualFocusMinutes)
+                currentFish = session.fish
+            } else {
+                // Fallback if no session exists
+                currentFish = generateFish(focusMinutes: actualFocusMinutes)
+            }
+            
             timerState = .finished
             
-            // 自动开始休息时间
+            // Automatically start break time
             Task { await startBreakAfterDelay() }
         } else {
-            // 不满足获得鱼的条件，重置为空闲状态
+            // Did not meet criteria for earning a fish, reset to idle state
             timerState = .idle
+            // Reset other values too
+            currentSession = nil
+            currentFish = nil
+            elapsedSeconds = 0
+            progress = 0.0
         }
     }
     
-    // 当显示鱼类奖励后延迟开始休息时间
+    // Start break time with delay after showing fish reward
     private func startBreakAfterDelay() async {
-        // 等待3秒后自动开始休息时间(给用户时间查看获得的鱼)
+        // Wait 3 seconds before automatically starting break time (gives user time to view fish earned)
         try? await Task.sleep(nanoseconds: 3_000_000_000)
         
-        // 检查状态是否还是finished，如果用户已经切换了状态则不自动开始休息
+        // Check if state is still finished, don't auto-start break if user has changed the state
         if timerState == .finished {
             await startBreak()
         }
@@ -234,12 +275,17 @@ class TimerViewModel: ObservableObject {
         totalSeconds = remainingSeconds
         progress = 0.0
         
-        // 休息状态直接启动计时器，不创建新的会话也不会有新的鱼
-        timer = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
+        // In break state, start timer directly without creating new session or new fish
+        timer?.invalidate()
+        timer = nil
+        
+        // Create a more precise timer
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 await self?.updateTimer()
             }
         }
+        timer?.tolerance = 0 // Set tolerance to 0 for more precise timing
         RunLoop.main.add(timer!, forMode: .common)
     }
     
@@ -248,7 +294,7 @@ class TimerViewModel: ObservableObject {
     }
     
     private func calculateRarity(focusMinutes: Int) -> FishRarity {
-        // 根据专注时间决定稀有度，时间越长稀有度越高
+        // Determine rarity based on focus time, longer time means higher rarity
         if focusMinutes >= 45 {
             return .epic
         } else if focusMinutes >= 30 {

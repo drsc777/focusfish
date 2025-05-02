@@ -9,6 +9,10 @@ struct TimerView: View {
     @State private var showSettings = false
     @State private var showHabitPicker = false
     @State private var showRewardPopup = false
+    @State private var showCountUpHabitSelection = false
+    @State private var countUpElapsedSeconds: Int = 0
+    @State private var showSessionAddedNotification = false
+    @State private var sessionAddedHabitName = ""
     
     var body: some View {
         GeometryReader { geometry in
@@ -33,16 +37,29 @@ struct TimerView: View {
                         isShowing: $showRewardPopup,
                         onAddToCollection: { habit, fish in
                             Task {
+                                // Create completed session with proper start and end times
                                 let session = PomodoroSession(
-                                    startTime: Date(),
+                                    startTime: timerViewModel.startTime ?? Date().addingTimeInterval(-TimeInterval(timerViewModel.focusMinutes * 60)),
                                     focusMinutes: timerViewModel.focusMinutes,
                                     habitId: habit.id,
                                     fish: fish
                                 )
+                                // Mark session as completed with end time
+                                session.isCompleted = true
+                                session.endTime = Date()
+                                
                                 await habitViewModel.addSession(to: habit, session: session)
                             }
                         }
                     )
+                }
+                
+                if showCountUpHabitSelection {
+                    countUpHabitSelectionView
+                }
+                
+                if showSessionAddedNotification {
+                    sessionAddedNotificationView
                 }
             }
             .onChange(of: timerViewModel.timerState) { state in
@@ -76,12 +93,22 @@ struct TimerView: View {
                 .padding(.horizontal, 20)
                 .frame(width: geometry.size.width * 0.4)
                 
-                // Right side - fishing scene
-                Image("focus")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: geometry.size.height * 0.8)
-                    .padding(.trailing, 20)
+                // Right side - fishing scene or app logo based on timer state
+                if timerViewModel.timerState == .idle {
+                    // Show app logo when not started
+                    Image("AppLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: geometry.size.height * 0.8)
+                        .padding(.trailing, 20)
+                } else {
+                    // Show fishing scene when timer is running or paused
+                    Image("focus")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: geometry.size.height * 0.8)
+                        .padding(.trailing, 20)
+                }
             }
         } else {
             // Portrait layout
@@ -94,12 +121,22 @@ struct TimerView: View {
                 timerDisplayView
                     .padding(.horizontal, 40)
                 
-                // Fishing scene
-                Image("focus")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: .infinity)
-                    .padding(.horizontal)
+                // Fishing scene or app logo based on timer state
+                if timerViewModel.timerState == .idle {
+                    // Show app logo when not started
+                    Image("AppLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: .infinity)
+                        .padding(.horizontal)
+                } else {
+                    // Show fishing scene when timer is running or paused
+                    Image("focus")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: .infinity)
+                        .padding(.horizontal)
+                }
                 
                 // Control buttons and sound toggle
                 controlsView
@@ -168,7 +205,7 @@ struct TimerView: View {
                     .bold()
                 
                 HStack(spacing: 10) {
-                    // 状态指示
+                    // Status indicator
                     Text(getTimerStateText())
                         .font(.custom("Menlo", size: 12))
                         .foregroundColor(.white.opacity(0.8))
@@ -180,7 +217,7 @@ struct TimerView: View {
         }
     }
     
-    // 获取当前计时器状态文本
+    // Get current timer state text
     private func getTimerStateText() -> String {
         switch timerViewModel.timerState {
         case .idle:
@@ -205,7 +242,13 @@ struct TimerView: View {
                     text: "Stop",
                     action: {
                         Task {
-                            await timerViewModel.stopTimer()
+                            if timerViewModel.timerMode == .countup && timerViewModel.timerState == .running {
+                                countUpElapsedSeconds = timerViewModel.elapsedSeconds
+                                await timerViewModel.pauseTimer()
+                                showCountUpHabitSelection = true
+                            } else {
+                                await timerViewModel.stopTimer()
+                            }
                         }
                     }
                 )
@@ -296,7 +339,7 @@ struct TimerView: View {
                             .stroke(Color.black, lineWidth: 2)
                     )
                     
-                    // Focus time settings (倒计时模式显示选择时间)
+                    // Focus time settings (display time selection for countdown mode)
                     if timerViewModel.timerMode == .countdown {
                         VStack(alignment: .leading, spacing: 15) {
                             Text("Focus Time")
@@ -537,6 +580,227 @@ struct TimerView: View {
             .background(Color.white)
             .cornerRadius(8)
             .padding(.horizontal, 20)
+        }
+    }
+    
+    // Count Up habit selection view
+    private var countUpHabitSelectionView: some View {
+        ZStack {
+            // Semi-transparent background
+            Color.black.opacity(0.3)
+                .edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    showCountUpHabitSelection = false
+                }
+            
+            // Count Up habit selection content
+            VStack(spacing: 20) {
+                Text("Add Count Up Session")
+                    .font(.custom("Menlo", size: 24))
+                    .bold()
+                    .foregroundColor(.black)
+                    .padding(.top, 20)
+                
+                // Session time info
+                VStack(spacing: 5) {
+                    Text("Time: \(formatTimeInterval(TimeInterval(countUpElapsedSeconds)))")
+                        .font(.custom("Menlo", size: 16))
+                        .foregroundColor(.black)
+                    
+                    if countUpElapsedSeconds >= 25 * 60 {
+                        Text("✅ Fish caught!")
+                            .font(.custom("Menlo", size: 14))
+                            .foregroundColor(.green)
+                    } else {
+                        VStack(spacing: 3) {
+                            Text("⚠️ Less than 25 min (no fish)")
+                                .font(.custom("Menlo", size: 14))
+                                .foregroundColor(.orange)
+                            
+                            Text("Session will still be recorded")
+                                .font(.custom("Menlo", size: 12))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.black, lineWidth: 1)
+                )
+                
+                Text("Short focus sessions are valuable too!")
+                    .font(.custom("Menlo", size: 14))
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.center)
+                
+                if habitViewModel.habits.isEmpty {
+                    Text("No habits yet")
+                        .font(.custom("Menlo", size: 16))
+                        .foregroundColor(.gray)
+                        .padding()
+                    
+                    PixelButton(
+                        text: "Create Habit",
+                        action: {
+                            Task {
+                                let habit = await habitViewModel.addHabit("New Habit")
+                                await saveCountUpSession(to: habit)
+                            }
+                        }
+                    )
+                    .buttonStyle(PixelButtonStyle(backgroundColor: .black, textColor: .white))
+                } else {
+                    Text("Select a habit:")
+                        .font(.custom("Menlo", size: 16))
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                    
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(habitViewModel.habits) { habit in
+                                Button(action: {
+                                    Task {
+                                        await saveCountUpSession(to: habit)
+                                    }
+                                }) {
+                                    HStack {
+                                        Text(habit.name)
+                                            .font(.custom("Menlo", size: 16))
+                                            .foregroundColor(.black)
+                                    }
+                                    .padding()
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .stroke(Color.black, lineWidth: 1)
+                                    )
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .frame(maxHeight: 300)
+                }
+                
+                HStack(spacing: 15) {
+                    // Cancel button
+                    PixelButton(
+                        text: "Cancel",
+                        action: {
+                            // Just close dialog and reset
+                            Task {
+                                await timerViewModel.resetTimer()
+                                showCountUpHabitSelection = false
+                            }
+                        }
+                    )
+                    .buttonStyle(PixelButtonStyle(backgroundColor: .gray, textColor: .white))
+                    
+                    // Discard button
+                    PixelButton(
+                        text: "Discard Session",
+                        action: {
+                            Task {
+                                await timerViewModel.resetTimer()
+                                showCountUpHabitSelection = false
+                            }
+                        }
+                    )
+                    .buttonStyle(PixelButtonStyle(backgroundColor: .red, textColor: .white))
+                }
+                .padding(.vertical, 20)
+            }
+            .background(Color.white)
+            .cornerRadius(8)
+            .padding(.horizontal, 20)
+        }
+    }
+    
+    // Save count up session to a habit
+    private func saveCountUpSession(to habit: Habit) async {
+        // Ensure even very short sessions are recorded as at least 1 minute
+        let actualFocusMinutes = max(1, countUpElapsedSeconds / 60)
+        
+        // Create a session
+        let session = PomodoroSession(
+            startTime: timerViewModel.startTime ?? Date().addingTimeInterval(-TimeInterval(countUpElapsedSeconds)),
+            focusMinutes: actualFocusMinutes,
+            breakMinutes: timerViewModel.breakMinutes,
+            habitId: habit.id
+        )
+        
+        // Mark as completed
+        session.isCompleted = true
+        session.endTime = Date()
+        
+        // If eligible for fish (25+ minutes), add fish
+        if countUpElapsedSeconds >= 25 * 60 {
+            session.fish = Fish.catchNewFish(focusMinutes: actualFocusMinutes)
+        }
+        
+        // Save the session to the habit
+        await habitViewModel.addSession(to: habit, session: session)
+        
+        // Reset timer and close dialog
+        await timerViewModel.resetTimer()
+        showCountUpHabitSelection = false
+        
+        // Show session added notification
+        sessionAddedHabitName = habit.name
+        showSessionAddedNotification = true
+    }
+    
+    // Session added notification view
+    private var sessionAddedNotificationView: some View {
+        VStack {
+            Spacer()
+            
+            HStack {
+                Spacer()
+                
+                VStack(spacing: 8) {
+                    Text("Session added to")
+                        .font(.custom("Menlo", size: 14))
+                        .foregroundColor(.white)
+                    
+                    Text("\"\(sessionAddedHabitName)\"")
+                        .font(.custom("Menlo", size: 16))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.black.opacity(0.85))
+                )
+                .padding(.trailing, 20)
+                .padding(.bottom, 20)
+                
+                Spacer()
+            }
+        }
+        .onAppear {
+            // Auto-hide after 3 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                showSessionAddedNotification = false
+            }
+        }
+    }
+    
+    // Helper function to format TimeInterval as a readable string
+    private func formatTimeInterval(_ interval: TimeInterval) -> String {
+        let hours = Int(interval / 3600)
+        let minutes = Int((interval.truncatingRemainder(dividingBy: 3600)) / 60)
+        let seconds = Int(interval.truncatingRemainder(dividingBy: 60))
+        
+        if hours > 0 {
+            return String(format: "%dh %dm %ds", hours, minutes, seconds)
+        } else if minutes > 0 {
+            return String(format: "%dm %ds", minutes, seconds)
+        } else {
+            return String(format: "%ds", seconds)
         }
     }
 }

@@ -212,20 +212,20 @@ struct HabitView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        showAddHabit = false
+                    showAddHabit = false
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        Task {
-                            if !newHabitName.isEmpty {
-                                await habitViewModel.addHabit(newHabitName)
-                                newHabitName = ""
-                                showAddHabit = false
-                            }
+                    Task {
+                        if !newHabitName.isEmpty {
+                            await habitViewModel.addHabit(newHabitName)
+                            newHabitName = ""
+                            showAddHabit = false
                         }
                     }
-                    .disabled(newHabitName.isEmpty)
+                }
+                .disabled(newHabitName.isEmpty)
                 }
             }
         }
@@ -332,7 +332,7 @@ struct HabitView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
-                        selectedHabit = nil
+                    selectedHabit = nil
                     }
                 }
             }

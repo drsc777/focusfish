@@ -28,6 +28,13 @@ final class PomodoroSession: Codable, Hashable {
         self.fish = Fish.catchNewFish(focusMinutes: self.focusMinutes)
     }
     
+    // Complete with actual focus time (for count-up mode)
+    func completeWithActualTime(actualFocusMinutes: Int) {
+        self.endTime = Date()
+        self.isCompleted = true
+        self.fish = Fish.catchNewFish(focusMinutes: actualFocusMinutes)
+    }
+    
     var duration: TimeInterval {
         guard let endTime = endTime else {
             return Date().timeIntervalSince(startTime)

@@ -48,11 +48,11 @@ struct PetStatusView: View {
                             
                             Spacer()
                             
-                            // 添加切换宠物类型按钮
+                            // Add button to switch pet type
                             Button(action: {
-                                // 切换猫/狗
+                                // Switch between cat/dog
                                 petViewModel.selectedPetType = petType == .cat ? .dog : .cat
-                                // 更新宠物名称
+                                // Update pet name
                                 petViewModel.updatePetName()
                             }) {
                                 Image(systemName: "arrow.triangle.2.circlepath")

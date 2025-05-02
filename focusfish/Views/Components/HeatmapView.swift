@@ -30,25 +30,25 @@ struct HeatmapView: View {
         }
     }
     
-    // 拆分为更小的视图组件以提高编译效率
+    // Split into smaller view components to improve compilation efficiency
     private var monthLabelsView: some View {
         HStack(spacing: 0) {
             ForEach(getMonthLabels(), id: \.self) { month in
                 Text(month)
                     .font(.custom("Menlo", size: 10))
                     .foregroundColor(.gray)
-                    .frame(width: (cellSize + spacing) * 4) // 每个月的近似宽度
+                    .frame(width: (cellSize + spacing) * 4) // Approximate width for each month
             }
         }
-        .padding(.leading, 20) // 与网格对齐
+        .padding(.leading, 20) // Align with grid
     }
     
     private func heatmapGridView(width: CGFloat) -> some View {
         HStack(alignment: .top, spacing: spacing) {
-            // 星期标签 - 使用固定宽度
+            // Weekday labels - using fixed width
             weekdayLabelsView
             
-            // 热图内容
+            // Heatmap content
             heatmapContentView(availableWidth: width - 25)
         }
     }
@@ -73,7 +73,7 @@ struct HeatmapView: View {
         let maxRows = 7
         let visibleCells = min(cellsPerRow * maxRows, gridDays.count)
         
-        // 获取当前日期的索引并计算要显示的日期
+        // Get current date index and calculate dates to display
         let today = Calendar.current.startOfDay(for: Date())
         let recentDays = getRecentDaysToShow(gridDays: gridDays, today: today, visibleCells: visibleCells, cellsPerRow: cellsPerRow)
         
@@ -81,13 +81,13 @@ struct HeatmapView: View {
     }
     
     private func getRecentDaysToShow(gridDays: [Date], today: Date, visibleCells: Int, cellsPerRow: Int) -> [Date] {
-        // 尝试找到今天的索引
+        // Try to find today's index
         if let todayIndex = gridDays.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: today) }) {
             let startIndex = max(0, min(gridDays.count - visibleCells, todayIndex - visibleCells/2))
             let endIndex = min(startIndex + visibleCells, gridDays.count)
             return Array(gridDays[startIndex..<endIndex])
         } else {
-            // 如果找不到今天，就显示最近的日期
+            // If today is not found, show the most recent dates
             return Array(gridDays.suffix(visibleCells))
         }
     }
@@ -146,7 +146,7 @@ struct HeatmapView: View {
     private func getDays() -> [Date] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
-        let days = 365 // 显示最近365天
+        let days = 365 // Show last 365 days
         
         return (0..<days).compactMap { day in
             calendar.date(byAdding: .day, value: -day, to: today)

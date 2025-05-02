@@ -7,7 +7,7 @@ struct Habit: Identifiable, Codable, Hashable {
     var completedSessions: [PomodoroSession]
     var streak: Int = 0
     var totalFocusTime: TimeInterval {
-        completedSessions.reduce(0) { $0 + TimeInterval($1.focusMinutes * 60) }
+        completedSessions.reduce(0) { $0 + $1.duration }
     }
     
     init(id: UUID = UUID(), name: String, isDurationBased: Bool, completedSessions: [PomodoroSession] = [], streak: Int = 0) {

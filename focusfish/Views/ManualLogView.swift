@@ -54,13 +54,13 @@ struct ManualLogView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        isPresented = false
+                    isPresented = false
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        Task {
-                            await saveLog()
+                    Task {
+                        await saveLog()
                         }
                     }
                 }
